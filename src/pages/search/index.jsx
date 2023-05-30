@@ -1,14 +1,17 @@
+/* eslint-disable react/no-unknown-property */
 import { useState, useEffect } from 'react';
 import data from './data/collections.min.json';
 import Fuse from 'fuse.js';
 import Layout from "../../components/layout";
 import { BsSearch } from "react-icons/bs";
 import brand from "../../assets/ss-image.png"
+import { useFuse } from '../../hooks/useFuse';
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [fuse, setFuse] = useState(null);
+  const [searchHistory, setHistory] = useState([]);
 
   useEffect(() => {
     const fuseInstance = new Fuse(data, {
@@ -41,6 +44,14 @@ const SearchPage = () => {
 
   const handleSearch = (event) => {
     setQuery(event.target.value);
+    const set = new Set([...searchHistory, query]);
+    setHistory([...set]);
+  };
+
+  const suggestions = useFuse(query, searchHistory);
+  const exactMatch = (query, text) => {
+  const regex = new RegExp(`^${query}`);
+    return regex.test(text);
   };
 
   // Search results limit
@@ -55,12 +66,9 @@ const SearchPage = () => {
     const parts = text.split(regex);
     
     return parts?.map((part, index) =>
-      regex.test(part) ? <span key={index} className="text-red-500 font-medium">{part}</span> : part
+      regex.test(part) ? <span key={index} className="text-red-500 font-extrabold rounded">{part}</span> : part
     );
   };
-  
-  
-  
 
   return (
     <Layout>
@@ -77,7 +85,7 @@ const SearchPage = () => {
               Read and search through the books written by Shakespeare with no hassle
             </h4>
           </div>
-          <div className="flex items-center justify-center mb-10">
+          <div className="flex items-center justify-center">
             <div className="relative">
               <input
                 type="search"
@@ -92,6 +100,28 @@ const SearchPage = () => {
               </span>
             </div>
           </div>
+          <div className="relative p-4 rounded-md text-red-400 z-[-1] select-none top-0 mb-10 flex justify-center">
+              {suggestions.length > 0 &&
+                exactMatch(query, suggestions[0]) &&
+              suggestions[0]}
+              <div>
+              </div>
+          </div>
+
+            {/* Search History */}
+            <div className='container mx-auto mb-10'>
+              <div className='flex flex-wrap justify-center'>
+                {query.length > 0 && searchHistory.length > 0 &&
+                  searchHistory.map((search) => (
+                    <span key={search} className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2'>
+                      {search}
+                    </span>
+                  ))
+                }
+              </div>
+            </div>
+
+
           {query !== '' && (
             <p className='text-gray-700 text-base font-extrabold mb-3'>See results about {query}</p>
           )}
