@@ -15,6 +15,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
             <li className={pathname === "/plays" ? "text-[#9B1E25]" : ""}>
               <Link to="/plays">Plays</Link>
             </li>
+            <li className={pathname === "/favorites" ? "text-[#9B1E25]" : ""}>
+              <Link to="/favorites">Favorites</Link>
+            </li>
           </ul>
         </nav>
       </header>
