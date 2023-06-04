@@ -1,11 +1,13 @@
 /* eslint-disable react/no-unknown-property */
 import { useState, useEffect, useRef } from 'react';
-import data from './data/collections.min.json';
+import data from '../../data/collections.min.json';
 import Fuse from 'fuse.js';
 import Layout from "../../components/layout";
 import { BsSearch } from "react-icons/bs";
 import brand from "../../assets/ss-image.png"
 import { useFuse } from '../../hooks/useFuse';
+import FavoritesPage from '../favoritesComponents/FavoritesPage';
+import FavoriteIcon from '../favoritesComponents/FavouriteIcon';
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
@@ -13,6 +15,10 @@ const SearchPage = () => {
   const [fuse, setFuse] = useState(null);
   const [searchHistory, setHistory] = useState([]);
   const [placeholder, setPlaceholder] = useState('Type something...');
+  const [favorites, setFavorites] = useState([]);
+  const [likedPlays, setLikedPlays] = useState([]);
+
+
 
   useEffect(() => {
     const fuseInstance = new Fuse(data, {
@@ -42,7 +48,7 @@ const SearchPage = () => {
 
     return () => clearTimeout(delayDebounceFn);
   }, [query, fuse]);
-
+  
 
   const handleSearch = (event) => {
     setQuery(event.target.value);
@@ -58,7 +64,7 @@ const SearchPage = () => {
   };
 
   // Search results limit
-  const resultsLimit = 10;
+  const resultsLimit = 3;
 
   // Search text highlights
 // Modify the highlightText function to handle arrays of strings
@@ -155,6 +161,22 @@ const highlightText = (text) => {
     };
   }, []);
 
+  // Add the liked FavoriteIcon to favorites
+  const addToFavorites = (play) => {
+    // Check if the play is already in favorites
+    if (favorites.some((favorite) => favorite.PLAY.TITLE === play.PLAY.TITLE)) {
+      // If it is, remove it from favorites
+      setFavorites((prevFavorites) =>
+        prevFavorites.filter((favorite) => favorite.PLAY.TITLE !== play.PLAY.TITLE)
+      );
+    } else {
+      // If it's not, add it to favorites
+      setFavorites((prevFavorites) => [...prevFavorites, play]);
+    }
+  };
+
+
+
   return (
     <Layout>
       <section>
@@ -169,6 +191,11 @@ const highlightText = (text) => {
             <h4 className="text-gray-700 font-semibold">
               Read and search through the books written by Shakespeare with no hassle
             </h4>
+          </div>
+          <div className='flex items-center justify-center'>
+          {favorites.length > 0 && (
+              <FavoritesPage favorites={favorites} setFavorites={setFavorites} />
+            )}
           </div>
           <div className="flex items-center flex-col">
             <div className="relative">
@@ -213,27 +240,51 @@ const highlightText = (text) => {
 
           {/* Suggestions */}
           {query !== '' && (
-            <p className='text-gray-700 text-base font-extrabold mb-3'>See results about {query}</p>
+            <p className='text-gray-700 text-base font-extrabold mb-3' style={{ fontFamily: "'Kalam', cursive" }}>See results about {query}</p>
           )}
 
           {/* Search results */}
           <div className='container mx-auto'>
             <div className="lg:grid lg:grid-cols-3 lg:items-start lg:gap-6 lg:space-x-16">
-              {results.slice(0, resultsLimit).map((play) => {
+              {results.slice(0, resultsLimit).map((play, index) => {
                 const scene = play?.PLAY?.ACT?.[0]?.SCENE?.[0] || {};
                 const personas = play?.PLAY?.PERSONAE?.PERSONA || [];
                 const actTitles = play?.PLAY?.ACT?.map((act) => act?.TITLE) || [];
                 // const { SPEAKER, LINE } = scene?.SPEECH?.[0] || {};
                 
-                console.log(scene)
+                // console.log(scene)
+
+                 // Handle the like event
+                 const handleLike = (play) => {
+                  addToFavorites(play);
+                  setLikedPlays((prevLikedPlays) => {
+                    if (prevLikedPlays.includes(play)) {
+                      return prevLikedPlays.filter((likedPlay) => likedPlay !== play);
+                    } else {
+                      return [...prevLikedPlays, play];
+                    }
+                  });
+                  console.log(likedPlays)
+                };
+                
+                
+                
                 
                 return (
                   <div key={play?.PLAY?.TITLE}>
-                    <h2 className="text-2xl mb-3">{highlightText(play?.PLAY?.TITLE)}</h2>
+                    {/* FavoriteIcon 1 */}
+                      <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
+                      <FavoriteIcon key={index} play={play} onLike={handleLike}/>
+                        <h2 className="text-2xl mb-3">{highlightText(play?.PLAY?.TITLE)}</h2>
                     <span className='inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3'>
                       {highlightText(scene?.TITLE)}
                     </span>
-                    <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
+                      </div>
+                   
+                    {/* FavoriteIcon 2 */}
+                    <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
+                    <FavoriteIcon key={index} play={play} onLike={handleLike}/>
+                        <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
                       Characters
                     </span>
                     <ul className="text-gray-700 text-base mb-3">
@@ -241,7 +292,12 @@ const highlightText = (text) => {
                         <li key={index}>{highlightText(persona)}</li>
                       ))}
                     </ul>
-                    <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
+                      </div>
+                    
+                    {/* FavoriteIcon 3 */}
+                    <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
+                    <FavoriteIcon key={index} play={play} onLike={handleLike}/>
+                        <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
                       Act Titles
                     </span>
                     <ul className="text-gray-700 text-base mb-3">
@@ -249,15 +305,21 @@ const highlightText = (text) => {
                         <li key={index}>{highlightText(actTitle)}</li>
                       ))}
                     </ul>
-                    <div key={scene?.TITLE}>
+                      </div>
+                    
+                    {/* FavoriteIcon 4 */}
+                    <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
+                        <h2 className="text-2xl mb-3">{highlightText(play?.PLAY?.TITLE)}</h2>
+                        <FavoriteIcon key={index} play={play} onLike={handleLike} />
+                        <div key={scene?.TITLE}>
                     {Array.isArray(scene?.SPEECH?.[0]) ? (
                       <ul>
                         {scene?.SPEECH?.[0].map((speech, index) => (
                           <li key={index}>
                             {highlightText(speech.SPEAKER) && (
-                              <h5 className="font-bold">
+                              <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
                                 {highlightText(speech.SPEAKER)}
-                              </h5>
+                              </span>
                             )}
                             {Array.isArray(speech.LINE) ? (
                               <ul>
@@ -273,13 +335,17 @@ const highlightText = (text) => {
                       </ul>
                     ) : (
                       <div>
-                        <h5 className="font-bold">
+                        <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
                           {highlightText(scene?.SPEECH?.[0]?.SPEAKER)}
-                        </h5>
+                        </span>
+                        <p>
                         {highlightText(scene?.SPEECH?.[0]?.LINE)}
+                        </p>
                       </div>
                     )}
                   </div>
+                      </div>
+                   
                   </div>
                 );
               })}
