@@ -1,26 +1,26 @@
 /* eslint-disable react/no-unknown-property */
-import { useState, useEffect, useRef } from 'react';
-import data from './data/collections.min.json';
-import Fuse from 'fuse.js';
+import { useState, useEffect, useRef } from "react";
+import data from "./data/collections.min.json";
+import Fuse from "fuse.js";
 import Layout from "../../components/layout";
 import { BsSearch } from "react-icons/bs";
-import brand from "../../assets/ss-image.png"
-import { useFuse } from '../../hooks/useFuse';
+import HomeIntro from "../../components/homeIntro";
+import { useFuse } from "../../hooks/useFuse";
 
 const SearchPage = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [fuse, setFuse] = useState(null);
   const [searchHistory, setHistory] = useState([]);
-  const [placeholder, setPlaceholder] = useState('Type something...');
+  const [placeholder, setPlaceholder] = useState("Type something...");
 
   useEffect(() => {
     const fuseInstance = new Fuse(data, {
       keys: [
-        'PLAY.TITLE',
-        'PLAY.SCENE.TITLE',
-        'PLAY.PERSONAE.PERSONA',
-        'PLAY.ACT.TITLE',
+        "PLAY.TITLE",
+        "PLAY.SCENE.TITLE",
+        "PLAY.PERSONAE.PERSONA",
+        "PLAY.ACT.TITLE",
       ],
       includeScore: true,
       includeMatches: true,
@@ -31,7 +31,7 @@ const SearchPage = () => {
   // A simple debounce function to optimiize the search
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      if (query === '') {
+      if (query === "") {
         setResults([]);
       } else if (fuse) {
         const fuzzyResults = fuse.search(query);
@@ -43,7 +43,6 @@ const SearchPage = () => {
     return () => clearTimeout(delayDebounceFn);
   }, [query, fuse]);
 
-
   const handleSearch = (event) => {
     setQuery(event.target.value);
     const set = new Set([...searchHistory, query]);
@@ -53,7 +52,7 @@ const SearchPage = () => {
   // Predictive typing
   const suggestions = useFuse(query, searchHistory);
   const exactMatch = (query, text) => {
-  const regex = new RegExp(`^${query}`);
+    const regex = new RegExp(`^${query}`);
     return regex.test(text);
   };
 
@@ -61,43 +60,42 @@ const SearchPage = () => {
   const resultsLimit = 10;
 
   // Search text highlights
-// Modify the highlightText function to handle arrays of strings
-const highlightText = (text) => {
-  if (!query || !text) {
-    return text;
-  }
+  // Modify the highlightText function to handle arrays of strings
+  const highlightText = (text) => {
+    if (!query || !text) {
+      return text;
+    }
 
-  if (Array.isArray(text)) {
-    return text.map((item, index) => (
-      <span key={index}>{highlightText(item)}</span>
-    ));
-  }
+    if (Array.isArray(text)) {
+      return text.map((item, index) => (
+        <span key={index}>{highlightText(item)}</span>
+      ));
+    }
 
-  if (typeof text !== 'string') {
-    return text;
-  }
+    if (typeof text !== "string") {
+      return text;
+    }
 
-  const regex = new RegExp(`(${query})`, 'gi');
-  const parts = text.split(regex);
+    const regex = new RegExp(`(${query})`, "gi");
+    const parts = text.split(regex);
 
-  return parts.map((part, index) =>
-    regex.test(part) ? (
-      <span key={index} className="text-red-500 font-extrabold rounded">
-        {part}
-      </span>
-    ) : (
-      part
-    )
-  );
-};
-
+    return parts.map((part, index) =>
+      regex.test(part) ? (
+        <span key={index} className="text-red-500 font-extrabold rounded">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
 
   // Placeholder prompting
   let intervalIdRef = useRef(null);
 
   const startInterval = () => {
     intervalIdRef.current = setInterval(() => {
-    const placeholders = [
+      const placeholders = [
         "The Tempest",
         "A Midsummer Night's Dream",
         "The Winter's Tale",
@@ -134,8 +132,8 @@ const highlightText = (text) => {
         "The Merry Wives of Windsor",
         "Love's Labour's Lost",
         "The Taming of the Shrew",
-    ]
-    
+      ];
+
       const randomIndex = Math.floor(Math.random() * placeholders.length);
       setPlaceholder(placeholders[randomIndex]);
     }, 5000);
@@ -143,7 +141,7 @@ const highlightText = (text) => {
 
   const resetInterval = () => {
     clearInterval(intervalIdRef.current);
-    setPlaceholder('Type something...');
+    setPlaceholder("Type something...");
     startInterval();
   };
 
@@ -158,18 +156,8 @@ const highlightText = (text) => {
   return (
     <Layout>
       <section>
-        <div className='container'>
-          <div className='flex justify-center items-center mt-10 mb-5 flex-col'>
-            <div className='flex justify-center items-center h-32 w-32 rounded-full border border-gray-300 mb-5'>
-              <img className='rounded-full' src={brand} alt="William Shakespeare" />
-            </div>
-            <h1 className="text-2xl font-bold" style={{ fontFamily: "'Kalam', cursive" }}>
-              Explore the Timeless Legacy of William Shakespeare
-            </h1>
-            <h4 className="text-gray-700 font-semibold">
-              Read and search through the books written by Shakespeare with no hassle
-            </h4>
-          </div>
+        <div className="container">
+          <HomeIntro />
           <div className="flex items-center flex-col">
             <div className="relative">
               {/* Search Input */}
@@ -184,53 +172,60 @@ const highlightText = (text) => {
                 onBlur={() => resetInterval()}
               />
               <span className="py-2 px-4 border border-red-500 rounded-xl rounded-l-none absolute inset-y-0 right-0 pl-3 bg-red-500 flex items-center">
-                <BsSearch className='text-white fill-current w-6 h-6' />
+                <BsSearch className="text-white fill-current w-6 h-6" />
               </span>
             </div>
-           {/* Search prediction */}
-           <div className="text-red-400 font-bold select-none top-0 mb-10">
-              <div className=''>
-              {suggestions.length > 0 &&
-                exactMatch(query, suggestions[0]) &&
-              suggestions[0]}
-              </div>
-          </div>
-          </div>
-          
-
-            {/* Search History */}
-            <div className='container mx-auto mb-10'>
-              <div className='flex flex-wrap justify-center'>
-                {query.length > 0 && searchHistory.length > 0 &&
-                  searchHistory.map((search) => (
-                    <span key={search} className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2'>
-                      {search}
-                    </span>
-                  ))
-                }
+            {/* Search prediction */}
+            <div className="text-red-400 font-bold select-none top-0 mb-10">
+              <div className="">
+                {suggestions.length > 0 &&
+                  exactMatch(query, suggestions[0]) &&
+                  suggestions[0]}
               </div>
             </div>
+          </div>
+
+          {/* Search History */}
+          <div className="container mx-auto mb-10">
+            <div className="flex flex-wrap justify-center">
+              {query.length > 0 &&
+                searchHistory.length > 0 &&
+                searchHistory.map((search) => (
+                  <span
+                    key={search}
+                    className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                  >
+                    {search}
+                  </span>
+                ))}
+            </div>
+          </div>
 
           {/* Suggestions */}
-          {query !== '' && (
-            <p className='text-gray-700 text-base font-extrabold mb-3'>See results about {query}</p>
+          {query !== "" && (
+            <p className="text-gray-700 text-base font-extrabold mb-3">
+              See results about {query}
+            </p>
           )}
 
           {/* Search results */}
-          <div className='container mx-auto'>
+          <div className="container mx-auto">
             <div className="lg:grid lg:grid-cols-3 lg:items-start lg:gap-6 lg:space-x-16">
               {results.slice(0, resultsLimit).map((play) => {
                 const scene = play?.PLAY?.ACT?.[0]?.SCENE?.[0] || {};
                 const personas = play?.PLAY?.PERSONAE?.PERSONA || [];
-                const actTitles = play?.PLAY?.ACT?.map((act) => act?.TITLE) || [];
+                const actTitles =
+                  play?.PLAY?.ACT?.map((act) => act?.TITLE) || [];
                 // const { SPEAKER, LINE } = scene?.SPEECH?.[0] || {};
-                
-                console.log(scene)
-                
+
+                console.log(scene);
+
                 return (
                   <div key={play?.PLAY?.TITLE}>
-                    <h2 className="text-2xl mb-3">{highlightText(play?.PLAY?.TITLE)}</h2>
-                    <span className='inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3'>
+                    <h2 className="text-2xl mb-3">
+                      {highlightText(play?.PLAY?.TITLE)}
+                    </h2>
+                    <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
                       {highlightText(scene?.TITLE)}
                     </span>
                     <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
@@ -250,36 +245,36 @@ const highlightText = (text) => {
                       ))}
                     </ul>
                     <div key={scene?.TITLE}>
-                    {Array.isArray(scene?.SPEECH?.[0]) ? (
-                      <ul>
-                        {scene?.SPEECH?.[0].map((speech, index) => (
-                          <li key={index}>
-                            {highlightText(speech.SPEAKER) && (
-                              <h5 className="font-bold">
-                                {highlightText(speech.SPEAKER)}
-                              </h5>
-                            )}
-                            {Array.isArray(speech.LINE) ? (
-                              <ul>
-                                {speech.LINE.map((line, idx) => (
-                                  <li key={idx}>{highlightText(line)}</li>
-                                ))}
-                              </ul>
-                            ) : (
-                              <p>{highlightText(speech.LINE)}</p>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <div>
-                        <h5 className="font-bold">
-                          {highlightText(scene?.SPEECH?.[0]?.SPEAKER)}
-                        </h5>
-                        {highlightText(scene?.SPEECH?.[0]?.LINE)}
-                      </div>
-                    )}
-                  </div>
+                      {Array.isArray(scene?.SPEECH?.[0]) ? (
+                        <ul>
+                          {scene?.SPEECH?.[0].map((speech, index) => (
+                            <li key={index}>
+                              {highlightText(speech.SPEAKER) && (
+                                <h5 className="font-bold">
+                                  {highlightText(speech.SPEAKER)}
+                                </h5>
+                              )}
+                              {Array.isArray(speech.LINE) ? (
+                                <ul>
+                                  {speech.LINE.map((line, idx) => (
+                                    <li key={idx}>{highlightText(line)}</li>
+                                  ))}
+                                </ul>
+                              ) : (
+                                <p>{highlightText(speech.LINE)}</p>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <div>
+                          <h5 className="font-bold">
+                            {highlightText(scene?.SPEECH?.[0]?.SPEAKER)}
+                          </h5>
+                          {highlightText(scene?.SPEECH?.[0]?.LINE)}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}
