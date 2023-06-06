@@ -6,8 +6,10 @@ import Layout from "../../components/layout";
 import { BsSearch } from "react-icons/bs";
 import brand from "../../assets/ss-image.png"
 import { useFuse } from '../../hooks/useFuse';
-import FavoritesPage from '../favoritesComponents/FavoritesPage';
-import FavoriteIcon from '../favoritesComponents/FavouriteIcon';
+import FavoritesPage from '../favorites/FavoritesPage';
+import FavoriteIcon from '../favorites/FavouriteIcon';
+import { FaRegBookmark } from 'react-icons/fa';
+import Modal from "./Modal"
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
@@ -17,6 +19,7 @@ const SearchPage = () => {
   const [placeholder, setPlaceholder] = useState('Type something...');
   const [favorites, setFavorites] = useState([]);
   const [likedPlays, setLikedPlays] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
 
 
@@ -175,6 +178,15 @@ const highlightText = (text) => {
     }
   };
 
+  // Favorites modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
 
 
   return (
@@ -192,12 +204,13 @@ const highlightText = (text) => {
               Read and search through the books written by Shakespeare with no hassle
             </h4>
           </div>
-          <div className='flex items-center justify-center'>
-          {favorites.length > 0 && (
-              <FavoritesPage favorites={favorites} setFavorites={setFavorites} />
-            )}
-          </div>
           <div className="flex items-center flex-col">
+            
+         <div>
+         <div className='mb-3 flex flex-row'>
+              <FaRegBookmark className='text-2xl text-red-500 inset-y-0 left-0 hover:cursor-pointer' onClick={openModal}/>
+              <p className='font-bold' style={{ fontFamily: "'Kalam', cursive" }}>Favorites</p>
+            </div>
             <div className="relative">
               {/* Search Input */}
               <input
@@ -213,7 +226,10 @@ const highlightText = (text) => {
               <span className="py-2 px-4 border border-red-500 rounded-xl rounded-l-none absolute inset-y-0 right-0 pl-3 bg-red-500 flex items-center">
                 <BsSearch className='text-white fill-current w-6 h-6' />
               </span>
+              
             </div>
+         </div>
+            
            {/* Search prediction */}
            <div className="text-red-400 font-bold select-none top-0 mb-10">
               <div className=''>
@@ -237,6 +253,8 @@ const highlightText = (text) => {
                 }
               </div>
             </div>
+
+            
 
           {/* Suggestions */}
           {query !== '' && (
@@ -350,6 +368,14 @@ const highlightText = (text) => {
                 );
               })}
             </div>
+          </div>
+          {/* Favorites modal */}
+          <div>
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+            {favorites.length > 0 && (
+              <FavoritesPage favorites={favorites} setFavorites={setFavorites} />
+            )}
+            </Modal>
           </div>
         </div>
       </section>

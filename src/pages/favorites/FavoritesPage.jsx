@@ -21,7 +21,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
       {/* eslint-disable-next-line react/prop-types */}
       {favorites?.map((card) => (
         <div key={uuidv4()}>
-          <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
+          <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4 bg-white'>
           <h1 className='font-bold' style={{ fontFamily: "'Kalam', cursive" }}>Favorites</h1>
           <FaTrash className='float-right' fill='red' onClick={() => handleRemove(card)}>Remove</FaTrash>
             {/* Render the favorite card content */}
