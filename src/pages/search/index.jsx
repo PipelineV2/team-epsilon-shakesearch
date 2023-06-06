@@ -205,7 +205,7 @@ const highlightText = (text) => {
                 value={query}
                 onChange={handleSearch}
                 placeholder={placeholder}
-                className="px-4 py-2 border-2 border-red-500 rounded-xl w-96 focus:outline-none"
+                className="px-4 py-2 border-2 border-red-500 rounded-xl w-96 focus:outline-none placeholder-red-500"
                 autoFocus
                 onFocus={() => clearInterval(intervalIdRef.current)}
                 onBlur={() => resetInterval()}
