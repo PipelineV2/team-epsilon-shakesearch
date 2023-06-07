@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "yarn build",
+    "build": "vite build",
     "lint": "eslint src --ext js,jsx,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
