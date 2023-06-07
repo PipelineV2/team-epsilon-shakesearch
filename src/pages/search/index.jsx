@@ -208,8 +208,8 @@ const highlightText = (text) => {
             
          <div>
          <div className='mb-3 flex flex-row'>
-              <FaRegBookmark className='text-2xl text-red-500 inset-y-0 left-0 hover:cursor-pointer' onClick={openModal}/>
-              <p className='font-bold' style={{ fontFamily: "'Kalam', cursive" }}>Favorites</p>
+              <FaRegBookmark className='text-2xl text-red-500 inset-y-0 left-0 cursor-pointer' onClick={openModal}/>
+              <span className='font-bold cursor-pointer' style={{ fontFamily: "'Kalam', cursive" }} onClick={openModal}>Favorites</span>
             </div>
             <div className="relative">
               {/* Search Input */}

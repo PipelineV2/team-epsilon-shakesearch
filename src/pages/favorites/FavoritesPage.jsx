@@ -23,7 +23,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
         <div key={uuidv4()}>
           <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4 bg-white'>
           <h1 className='font-bold' style={{ fontFamily: "'Kalam', cursive" }}>Favorites</h1>
-          <FaTrash className='float-right' fill='red' onClick={() => handleRemove(card)}>Remove</FaTrash>
+          <FaTrash className='float-right cursor-pointer' fill='red' onClick={() => handleRemove(card)}/>
             {/* Render the favorite card content */}
           <h2>{card?.PLAY?.TITLE}</h2>
           <h2>{card?.scene?.TITLE}</h2>
