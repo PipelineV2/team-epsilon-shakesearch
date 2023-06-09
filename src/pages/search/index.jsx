@@ -301,7 +301,7 @@ const highlightText = (text) => {
                    
                     {/* FavoriteIcon 2 */}
                     <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
-                    <FavoriteIcon key={index} play={play} onLike={handleLike}/>
+                    {/* <FavoriteIcon key={index} play={play} onLike={handleLike}/> */}
                         <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
                       Characters
                     </span>
@@ -314,7 +314,7 @@ const highlightText = (text) => {
                     
                     {/* FavoriteIcon 3 */}
                     <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
-                    <FavoriteIcon key={index} play={play} onLike={handleLike}/>
+                    {/* <FavoriteIcon key={index} play={play} onLike={handleLike}/> */}
                         <span className="inline-flex items-center leading-none px-2.5 py-1.5 text-sm font-medium text-skin-inverted rounded-full border border-skin-input bg-red-200 mb-3">
                       Act Titles
                     </span>
@@ -327,8 +327,7 @@ const highlightText = (text) => {
                     
                     {/* FavoriteIcon 4 */}
                     <div className='max-w-sm rounded overflow-hidden shadow-lg mb-3 px-6 py-4'>
-                        <h2 className="text-2xl mb-3">{highlightText(play?.PLAY?.TITLE)}</h2>
-                        <FavoriteIcon key={index} play={play} onLike={handleLike} />
+                        {/* <FavoriteIcon key={index} play={play} onLike={handleLike} /> */}
                         <div key={scene?.TITLE}>
                     {Array.isArray(scene?.SPEECH?.[0]) ? (
                       <ul>
