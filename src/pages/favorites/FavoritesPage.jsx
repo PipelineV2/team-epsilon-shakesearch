@@ -8,7 +8,7 @@ const FavoritesPage = ({ favorites, setFavorites }) => {
   const handleRemove = (card) => {
   // Remove the card from favorites
   // eslint-disable-next-line react/prop-types
-  const updatedFavorites = favorites.filter((favorite) => favorite.uuid !== card.uuid);
+  const updatedFavorites = favorites.filter((favorite) => favorite !== card);
   setFavorites(updatedFavorites);
   };
 
