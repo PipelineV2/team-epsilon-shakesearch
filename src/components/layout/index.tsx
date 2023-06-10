@@ -19,7 +19,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
         </nav>
       </header>
 
-      <main className="md:container md:mx-auto px-8">{children}</main>
+      <main className="md:container md:mx-auto min-h-screen">{children}</main>
     </Fragment>
   );
 };
