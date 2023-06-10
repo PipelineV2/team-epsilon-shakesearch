@@ -6,7 +6,7 @@ Shakesearch (the name of the app) a simple web app that allows a user to search 
 
 Your Mission: Improve the app! Think about the problem from the user's perspective and prioritize your changes according to what you think is most useful. The company expect to evaluate submissions primarily based on how well the search works for users.
 
-**Team Epsilon's capstone project for the [TalentQL Pipline](https://pipeline.talentql.com/) V2 2022/2023**
+**Team Epsilon's capstone project for the [TalentQL Pipeline](https://pipeline.talentql.com/) V2 2022/2023**
 
 ## Screenshots
 
