@@ -191,10 +191,11 @@ const SearchPage = () => {
         <div className="container">
           <HomeIntro />
           <div className="flex items-center flex-col">
-            <div>
+            <div className="max-w-4xl mx-auto w-full">
               <div className="mb-3 flex flex-row">
                 <FaRegBookmark
                   className="text-2xl text-red-500 inset-y-0 left-0 cursor-pointer"
+                  color="#9B1E25"
                   onClick={openModal}
                 />
                 <span
@@ -212,12 +213,12 @@ const SearchPage = () => {
                   value={query}
                   onChange={handleSearch}
                   placeholder={placeholder}
-                  className="px-4 py-2 border-2 border-red-500 rounded-xl w-96 focus:outline-none placeholder-red-500"
+                  className="px-4 py-2 h-14 border-2 border-[#9B1E25] rounded-xl focus:outline-none w-full"
                   autoFocus
                   onFocus={() => clearInterval(intervalIdRef.current)}
                   onBlur={() => resetInterval()}
                 />
-                <span className="py-2 px-4 border border-red-500 rounded-xl rounded-l-none absolute inset-y-0 right-0 pl-3 bg-red-500 flex items-center">
+                <span className="w-14 h-14 border border-[#9B1E25] rounded-xl rounded-l-none absolute inset-y-0 right-0 pl-3 bg-[#9B1E25] flex items-center">
                   <BsSearch className="text-white fill-current w-6 h-6" />
                 </span>
               </div>
