@@ -230,31 +230,6 @@ const SearchPage = () => {
                     suggestions[0]}
                 </div>
               </div>
-
-              {/* Search prediction */}
-              <div className="text-red-400 font-bold select-none top-0 mb-10">
-                <div className="">
-                  {suggestions.length > 0 &&
-                    exactMatch(query, suggestions[0]) &&
-                    suggestions[0]}
-                </div>
-              </div>
-            </div>
-
-            {/* Search History */}
-            <div className="container mx-auto mb-10">
-              <div className="flex flex-wrap justify-center">
-                {query.length > 0 &&
-                  searchHistory.length > 0 &&
-                  searchHistory.map((search) => (
-                    <span
-                      key={search}
-                      className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                    >
-                      {search}
-                    </span>
-                  ))}
-              </div>
             </div>
           </div>
 
