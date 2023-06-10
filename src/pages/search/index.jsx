@@ -64,7 +64,7 @@ const SearchPage = () => {
   };
 
   // Search results limit
-  const resultsLimit = 10;
+  const resultsLimit = 3;
 
   // Search text highlights
   // Modify the highlightText function to handle arrays of strings
