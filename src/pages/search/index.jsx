@@ -229,15 +229,6 @@ const SearchPage = () => {
                     suggestions[0]}
                 </div>
               </div>
-
-              {/* Search prediction */}
-              <div className="text-red-400 font-bold select-none top-0 mb-10">
-                <div className="">
-                  {suggestions.length > 0 &&
-                    exactMatch(query, suggestions[0]) &&
-                    suggestions[0]}
-                </div>
-              </div>
             </div>
 
             {/* Search History */}
