@@ -1,13 +1,13 @@
+import { useState } from "react";
 import HomeIntro from "../../components/homeIntro";
 import Layout from "../../components/layout";
 import SearchInput from "../../components/searchInput";
 import { ReactComponent as FilterIcon } from "../../assets/filter.svg";
 import { ReactComponent as GridIcon } from "../../assets/grid.svg";
 import { ReactComponent as ListIcon } from "../../assets/list.svg";
-import PlayItem from "../../components/playItem";
-import { useState } from "react";
 import ListPlayItem from "../../components/playItem/list";
 import GridPlayItem from "../../components/playItem/grid";
+import playsData from "../search/data/collections.json";
 
 type View = "grid" | "list";
 
@@ -53,7 +53,7 @@ const PlaysPage = () => {
               <button
                 type="button"
                 className={`h-10 w-10 border-0 rounded-md flex items-center justify-center ${
-                  view === "grid" ? "bg-[#9B1E25]" : ""
+                  view === "grid" ? "bg-[#9B1E25] text-white" : ""
                 }`}
                 onClick={() => changeView("grid")}
               >
@@ -63,7 +63,7 @@ const PlaysPage = () => {
               <button
                 type="button"
                 className={`h-10 w-10 border-0 rounded-md flex items-center justify-center ${
-                  view === "list" ? "bg-[#9B1E25]" : ""
+                  view === "list" ? "bg-[#9B1E25] text-white" : ""
                 }`}
                 onClick={() => changeView("list")}
               >
@@ -74,14 +74,28 @@ const PlaysPage = () => {
 
           {view === "grid" ? (
             <div className="grid grid-cols-3 gap-x-6 gap-y-14">
-              {[0, 1, 2, 3, 4, 5, 6, 7, 9].map((play) => (
-                <GridPlayItem key={play} />
+              {playsData.map((data) => (
+                <GridPlayItem
+                  key={data.PLAY.TITLE}
+                  play={{
+                    title: data.PLAY.TITLE,
+                    noOfActs: data.PLAY.ACT.length,
+                    // noOfScenes: data.PLA,
+                  }}
+                />
               ))}
             </div>
           ) : (
             <div className="flex flex-col gap-6">
-              {[0, 1, 2, 3, 4, 5, 6, 7, 9].map((play) => (
-                <ListPlayItem key={play} />
+              {playsData.map((data) => (
+                <ListPlayItem
+                  key={data.PLAY.TITLE}
+                  play={{
+                    title: data.PLAY.TITLE,
+                    noOfActs: data.PLAY.ACT.length,
+                    // noOfScenes: data.PLA,
+                  }}
+                />
               ))}
             </div>
           )}
