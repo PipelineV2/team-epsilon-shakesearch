@@ -11,6 +11,8 @@ import playsData from "../search/data/collections.json";
 
 type View = "grid" | "list";
 
+console.log(playsData.map((data) => data.PLAY.TITLE));
+
 const PlaysPage = () => {
   const [view, setvVew] = useState<View>("list");
 
