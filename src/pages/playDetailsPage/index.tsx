@@ -29,6 +29,8 @@ const PlayDetailsPage = () => {
     setCurrentPlay(result.PLAY);
     setCurrentPlayIndex(playIndex);
     setCurrentAct(result.PLAY.ACT[0]);
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [playId]);
 
   const handleNavSelection = (selection: string) => {
