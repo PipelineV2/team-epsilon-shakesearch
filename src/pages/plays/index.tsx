@@ -7,7 +7,7 @@ import { ReactComponent as GridIcon } from "../../assets/grid.svg";
 import { ReactComponent as ListIcon } from "../../assets/list.svg";
 import ListPlayItem from "../../components/playItem/list";
 import GridPlayItem from "../../components/playItem/grid";
-import playsData from "../search/data/collections.json";
+import playsData from "../../data/collections.min.json";
 
 type View = "grid" | "list";
 

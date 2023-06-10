@@ -1,7 +1,7 @@
 import Layout from "../../components/layout";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import TimonOfAthens from "../../assets/timon-of-athenss.png";
-import playsData from "../search/data/collections.json";
+import playsData from "../../data/collections.min.json";
 import { useEffect, useState } from "react";
 import Pagination from "../../components/pagination";
 import { useNavigate, useParams } from "react-router-dom";
